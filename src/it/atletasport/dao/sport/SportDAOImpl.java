@@ -1,6 +1,6 @@
 package it.atletasport.dao.sport;
 
-import it.atletasport.model.Atleta;
+
 import it.atletasport.model.Sport;
 
 import javax.persistence.EntityManager;

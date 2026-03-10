@@ -98,9 +98,24 @@ public class SportServiceImpl implements SportService{
 
 
     @Override
-    public void rimuovi(Long idUtente) throws Exception {
+    public void rimuovi(Long idSport) throws Exception {
         // TODO Auto-generated method stub
+        EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
+        try{
+            entityManager.getTransaction().begin();
+
+            sportDAO.setEntityManager(entityManager);
+
+            Sport sport = sportDAO.get(idSport);
+            sportDAO.delete(sport);
+
+            entityManager.getTransaction().commit();
+
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
 
 
     }
