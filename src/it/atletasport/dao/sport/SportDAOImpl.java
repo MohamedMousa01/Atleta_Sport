@@ -1,6 +1,7 @@
 package it.atletasport.dao.sport;
 
 
+import it.atletasport.dao.EntityManagerUtil;
 import it.atletasport.model.Sport;
 
 import javax.persistence.EntityManager;
@@ -51,6 +52,16 @@ public class SportDAOImpl implements SportDAO{
         }
         entityManager.remove(entityManager.merge(sportInstance));
     }
+
+
+    public List<Sport> trovaSportConDateinvertite() throws Exception{
+
+        return entityManager.createQuery("SELECT s FROM Sport s WHERE s.dataInizio > s.dataFine", Sport.class)
+                .getResultList();
+    }
+
+
+
 
 
 }

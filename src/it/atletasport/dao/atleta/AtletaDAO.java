@@ -5,6 +5,7 @@ import it.atletasport.model.Atleta;
 
 public interface AtletaDAO extends IBaseDAO<Atleta> {
 
+    public Long sommaMedaglieAtletiConSportChiusi() throws Exception;
 
 
 }

@@ -41,6 +41,15 @@ public class Atleta {
         this.numeroMedaglieVinte = numeroMedaglieVinte;
     }
 
+    public Atleta(String nome, String cognome, LocalDate datanascita, String codice, int numeroMedaglieVinte, Set<Sport> sport) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.datanascita = datanascita;
+        this.codice = codice;
+        this.numeroMedaglieVinte = numeroMedaglieVinte;
+        this.sport = sport;
+    }
+
     public Long getId() {
         return id;
     }
@@ -88,6 +97,15 @@ public class Atleta {
     public void setNumeroMedaglieVinte(int numeroMedaglieVinte) {
         this.numeroMedaglieVinte = numeroMedaglieVinte;
     }
+
+    public Set<Sport> getSport() {
+        return sport;
+    }
+
+    public void setSport(Set<Sport> sport) {
+        this.sport = sport;
+    }
+
 
     @Override
     public String toString() {

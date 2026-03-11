@@ -1,11 +1,21 @@
 package it.atletasport.test;
 
+import it.atletasport.dao.MyDAOFactory;
+import it.atletasport.dao.atleta.AtletaDAO;
+import it.atletasport.dao.atleta.AtletaDAOImpl;
+import it.atletasport.dao.sport.SportDAO;
 import it.atletasport.model.Atleta;
+import it.atletasport.model.Sport;
+import it.atletasport.model.TipoSport;
 import it.atletasport.services.AtletaService;
 import it.atletasport.services.MyServiceFactory;
 import it.atletasport.services.SportService;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
+import static it.atletasport.model.TipoSport.CALCIO;
 
 public class TestAtletaSport {
 
@@ -18,14 +28,17 @@ public class TestAtletaSport {
         try{
             System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
 
-            testInserisciNuovoAtleta(atletaService);
-            System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
+//            testInserisciNuovoAtleta(atletaService);
+//            System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
+//
+//            testRimuoviAtleta(atletaService);
+//            System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
+//
+//            testUpdateAtleta(atletaService);
+//            System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
 
-            testRimuoviAtleta(atletaService);
-            System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
-
-            testUpdateAtleta(atletaService);
-            System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
+              testCollegaSportAdAtleta( sportService, atletaService);
+              System.out.println("Sono presenti " + atletaService.listAll().size() + " atleti");
 
         } catch (Exception e){
             e.printStackTrace();
@@ -94,6 +107,32 @@ public class TestAtletaSport {
 
 
 
+
+    private static void testCollegaSportAdAtleta( SportService sportServiceInstance, AtletaService atletaServiceInstance) throws Exception{
+
+        System.out.println("---------testCollegaSportAdAtleta inzio----------");
+
+        AtletaDAO atletaDAO = MyDAOFactory.getAtletaDAOInstance();
+        SportDAO sportDAO = MyDAOFactory.getSportDAOInstance();
+
+        sportServiceInstance.setAtletaDAO(atletaDAO);
+        sportServiceInstance.setSportDAO(sportDAO);
+
+        Sport sport1 = new Sport("BASKET", LocalDate.of(2025,9,15),LocalDate.of(2026,6,8));
+        sportServiceInstance.inserisciNuovo(sport1);
+
+        Set<Sport> sport = new HashSet<>(0);
+        sport.add(sport1);
+        Atleta atleta1 = new Atleta("Francesco" , "Ventura", LocalDate.of(1995,01,01), "007", 4, sport);
+        atletaServiceInstance.inserisciNuovo(atleta1);
+
+        Long idSport1 = sport1.getId();
+        Long idAtleta1 = atleta1.getId();
+
+        sportServiceInstance.collegaSportAdAtleta(idAtleta1, sport1);
+
+        System.out.println("---------Fine testCollegaSportAdAtleta--------");
+    }
 
 
 }

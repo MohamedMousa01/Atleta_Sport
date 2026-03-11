@@ -19,5 +19,8 @@ public interface SportService {
 
     public void rimuovi(Long idUtente) throws Exception;
 
+    public void collegaSportAdAtleta(Long idAtleta, Sport sport) throws Exception;
+
+    public void scollegaSportAdAtleta(Long idAtleta, Sport sport) throws Exception;
 
 }

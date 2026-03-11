@@ -4,6 +4,7 @@ import it.atletasport.dao.EntityManagerUtil;
 import it.atletasport.dao.atleta.AtletaDAO;
 import it.atletasport.dao.sport.SportDAO;
 import it.atletasport.model.Atleta;
+import it.atletasport.model.Sport;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -119,6 +120,55 @@ public class AtletaServiceImpl implements AtletaService {
         }
 
     }
+
+
+
+    public void removeAtleta(Long atletaId) throws Exception{
+
+        EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+        try{
+
+            entityManager.getTransaction().begin();
+
+            atletaDAO.setEntityManager(entityManager);
+
+
+            Atleta atletaDaRimuovere = atletaDAO.get(atletaId);
+
+            if (atletaDaRimuovere != null) {
+                atletaDaRimuovere.getSport().clear();
+
+                atletaDAO.delete(atletaDaRimuovere);
+            }
+
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException(e);
+        } finally {
+            EntityManagerUtil.closeEntityManager(entityManager);
+        }
+    }
+
+
+    @Override
+    public void sommaMedaglieAtletiConSportChiusi() throws Exception {
+        EntityManager entityManager = EntityManagerUtil.getEntityManager();
+        try {
+
+            atletaDAO.setEntityManager(entityManager);
+
+            Long totale = atletaDAO.sommaMedaglieAtletiConSportChiusi();
+
+            System.out.println("Il totale delle medaglie degli atleti con sport conclusi è: " + totale);
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            entityManager.close();
+        }
+    }
+
 
 
 }
